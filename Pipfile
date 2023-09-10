@@ -5,8 +5,13 @@ name = "pypi"
 
 [packages]
 flask = "*"
+requests = "*"
+python-dotenv = "*"
+pytest = "*"
+mock = "*"
 
 [dev-packages]
+pytest = "*"
 
 [requires]
 python_version = "3.11"
