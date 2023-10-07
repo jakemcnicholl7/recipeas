@@ -1,0 +1,2 @@
+VERBOSE = True
+DETAILED_VERBOSE = False
