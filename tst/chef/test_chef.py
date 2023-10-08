@@ -13,10 +13,10 @@ def chef(sous_chef):
 
 def test_get_random_meal(chef, sous_chef):
     # Given
-    sous_chef.get_random_meal.return_value = "Brocolli";
+    sous_chef.get_random_meals.return_value = "Brocolli";
 
     # When
-    meal = chef.make_random_meal()
+    meal = chef.make_random_meals()
 
     # Then
     assert meal == "Brocolli"

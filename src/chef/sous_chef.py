@@ -12,7 +12,7 @@ class SousChef:
     def __init__(self):
         ...
     
-    def get_random_meals():
+    def get_random_meals(self, number):
         ...
 
 
