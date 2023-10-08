@@ -20,6 +20,7 @@ class SpoonacularSousChef(SousChef):
     URL_ENDPOINT = "https://api.spoonacular.com/recipes/"
     HEADERS = {"x-api-key": SPOONACULAR_API_KEY}
     RECIPE_EXPLORATION_FACTOR = 10
+    FIELDS_TO_RETURN = {"title", "aggregateLikes", "spoonacularSourceUrl"}
 
     def __init__(self):
         ...
@@ -42,7 +43,19 @@ class SpoonacularSousChef(SousChef):
 
         path = self.compose_url(path_params, query_params);
         response = requests.get(path, headers=SpoonacularSousChef.HEADERS)
-        return response.json()["results"]
+        meals = response.json()["results"]
+        return self.simplify_meals(meals)
+
+    def simplify_meals(self, meals):
+        simplified_meals = []
+        for meal in meals:
+            simplified_meal = {}
+            for field in SpoonacularSousChef.FIELDS_TO_RETURN:
+                if field in meal:
+                    simplified_meal[field] = meal[field]
+            simplified_meals.append(simplified_meal)
+        return simplified_meals
+
 
     def get_popular_random_meals(self, number):
         random_meal_pool = self.get_random_meals(number * SpoonacularSousChef.RECIPE_EXPLORATION_FACTOR)
