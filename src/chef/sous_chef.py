@@ -19,7 +19,7 @@ class SousChef:
 class SpoonacularSousChef(SousChef):
     URL_ENDPOINT = "https://api.spoonacular.com/recipes/"
     HEADERS = {"x-api-key": SPOONACULAR_API_KEY}
-    RECIPE_EXPLORATION_FACTOR = 10
+    RECIPE_EXPLORATION_FACTOR = 3 
     FIELDS_TO_RETURN = {"title", "aggregateLikes", "spoonacularSourceUrl"}
 
     def __init__(self):
