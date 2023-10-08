@@ -2,7 +2,7 @@ import pytest
 import json
 
 from src.chef.sous_chef import SpoonacularSousChef
-import test_config as cfg
+from tst import tst_config as cfg
 
 @pytest.fixture
 def sous_chef():
