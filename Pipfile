@@ -9,6 +9,7 @@ requests = "*"
 python-dotenv = "*"
 pytest = "*"
 mock = "*"
+gunicorn = "*"
 
 [dev-packages]
 pytest = "*"
