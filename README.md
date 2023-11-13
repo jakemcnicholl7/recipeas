@@ -58,6 +58,8 @@
    `sudo systemctl restart nginx`
 
 ### Running 
+1. `cd workplace/recipeas/`
+1. `pipenv shell`
 1. `gunicorn -c gunicorn_config.py src.api:application`
 
 ## Testing
