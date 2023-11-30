@@ -1,15 +1,15 @@
-HOME=/home/ec2-user/
+BASE_DIRECTORY=/home/ec2-user
 DEPLOYMENT_DIRECTORY=/opt/codedeploy-agent/deployment-root/$DEPLOYMENT_GROUP_ID/$DEPLOYMENT_ID/deployment-archive
-WORKPLACE=$HOME/workplace
+WORKPLACE=$BASE_DIRECTORY/workplace
 PROJECT=$WORKPLACE/$APPLICATION_NAME
 WEBSITE="taitneamh.ie"
 
 log () {
-	echo $1 >> $HOME/deployment.log
+	echo $1 >> $BASE_DIRECTORY/deployment.log
 }
 
 # Load bashrc
-source $HOME/.bashrc
+source $BASE_DIRECTORY/.bashrc
 
 # Workplace Setup
 rm -r $WORKPLACE
@@ -36,13 +36,13 @@ if pyenv -v; then
 else
 	echo "[INFO] installing pyenv"
 	sudo yum -y install git gcc zlib-devel bzip2-devel readline-devel sqlite-devel openssl-devel
-	git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv
-	echo "export PYENV_ROOT='$HOME/.pyenv'" >> $HOME/.bashrc
-	echo "export PATH='$PYENV_ROOT/bin:$PATH'" >> $HOME/.bashrc
+	git clone https://github.com/pyenv/pyenv.git $BASE_DIRECTORY/.pyenv
+	echo "export PYENV_ROOT='$BASE_DIRECTORY/.pyenv'" >> $BASE_DIRECTORY/.bashrc
+	echo "export PATH='$PYENV_ROOT/bin:$PATH'" >> $BASE_DIRECTORY/.bashrc
 	echo "if command -v pyenv 1>/dev/null 2>&1; then"
 	echo "	eval '(pyenv init -)'"
 	echo "fi"
-	source $HOME/.bashrc
+	source $BASE_DIRECTORY/.bashrc
 fi
 
 # Install nginx
