@@ -1,2 +1,7 @@
 version: 0.0
 os: linux
+
+hooks:
+	AfterAllowTraffic:
+		-location: server_boot_up.sh
+
