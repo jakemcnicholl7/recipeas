@@ -1,6 +1,2 @@
 version: 0.0
 os: linux
-hooks:
-	ApplicationStart:
-		- location: server_boot_up.sh
-
