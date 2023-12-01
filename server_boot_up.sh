@@ -21,7 +21,7 @@ cd $PROJECT
 aws secretsmanager get-secret-value --secret-id RecipeasConfiguration --query SecretString | jq -r | jq -r 'to_entries[] | "\(.key)=\"\(.value)\""' > .env
 
 # Install pipenv
-if pipenv --version; then
+if sudo [ pipenv --version ]; then
 	echo "[INFO] pipenv already installed"
 else
 	echo "[INFO] installing pipenv"
@@ -37,11 +37,11 @@ else
 	echo "[INFO] installing pyenv"
 	sudo yum -y install git gcc zlib-devel bzip2-devel readline-devel sqlite-devel openssl-devel
 	git clone https://github.com/pyenv/pyenv.git $BASE_DIRECTORY/.pyenv
-	echo "export PYENV_ROOT='$BASE_DIRECTORY/.pyenv'" >> $BASE_DIRECTORY/.bashrc
-	echo "export PATH='$PYENV_ROOT/bin:$PATH'" >> $BASE_DIRECTORY/.bashrc
-	echo "if command -v pyenv 1>/dev/null 2>&1; then"
-	echo "	eval '(pyenv init -)'"
-	echo "fi"
+	echo "export PYENV_ROOT=\$HOME/.pyenv" >> $BASE_DIRECTORY/.bashrc
+	echo "export PATH=\$PYENV_ROOT/bin:\$PATH" >> $BASE_DIRECTORY/.bashrc
+	echo "if command -v pyenv 1>/dev/null 2>&1; then" >> $BASE_DIRECTORY/.bashrc
+	echo "	eval '(pyenv init -)'" >> $BASE_DIRECTORY/.bashrc
+	echo "fi" >> $BASE_DIRECTORY/.bashrc
 	source $BASE_DIRECTORY/.bashrc
 fi
 
