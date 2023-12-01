@@ -40,7 +40,7 @@ else
 	echo "export PYENV_ROOT=\"\$HOME/.pyenv\"" >> $BASE_DIRECTORY/.bashrc
 	echo "export PATH=\"\$PYENV_ROOT/bin:\$PATH\"" >> $BASE_DIRECTORY/.bashrc
 	echo "if command -v pyenv 1>/dev/null 2>&1; then" >> $BASE_DIRECTORY/.bashrc
-	echo "	eval '(pyenv init -)'" >> $BASE_DIRECTORY/.bashrc
+	echo "	eval \"\$(pyenv init -)\"" >> $BASE_DIRECTORY/.bashrc
 	echo "fi" >> $BASE_DIRECTORY/.bashrc
 	source $BASE_DIRECTORY/.bashrc
 fi
@@ -86,7 +86,7 @@ echo "[INFO] Running server locally"
 pipenv run gunicorn -c gunicorn_config.py src.api:application --daemon
 
 # End python virtual environment
-deactivate
+pipenv deactivate
 
 # Run Applicaiton Externally
 echo "[INFO] Running server externally"
