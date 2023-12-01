@@ -16,9 +16,19 @@ rm -rf $WORKPLACE
 mkdir -p $WORKPLACE
 ln -sf $DEPLOYMENT_DIRECTORY $PROJECT
 
+
+# Fetch config
+echo "[INFO] Fetching config"
+CONFIG=$(aws secretsmanager get-secret-value --secret-id RecipeasConfiguration --query SecretString)
+
 # Create .env file 
 cd $PROJECT
-aws secretsmanager get-secret-value --secret-id RecipeasConfiguration --query SecretString | jq -r | jq -r 'to_entries[] | "\(.key)=\"\(.value)\""' > .env
+echo $CONFIG | jq -r | jq -r 'to_entries[] | "\(.key)=\"\(.value)\""' > .env
+
+# Export config values
+echo $CONFIG | jq -r | jq -r 'to_entries[] | "export \(.key)=\"\(.value)\""' > config_export.sh
+source config_export.sh
+rm -f config_export.sh
 
 # Install pipenv
 if pipenv --version; then
@@ -105,7 +115,7 @@ if [ "$response" -ge 200 ] && [ "$response" -lt 300 ]; then
 	echo "[INFO] SUCCESS HTTPS is already setup"
 else
 	echo "[INFO] Setting up HTTPS encryption"
-	sudo certbot --nginx -d taitneamh.ie -d www.taitneamh.ie --agree-tos -n
+	sudo certbot --nginx -d $WEBSITE -d www.$WEBSITE --agree-tos -n -m $EMAIL
 	echo "0 0,12 * * * root /opt/cerbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)'" | sudo tee -a /etc/crontab > /dev/null
 
 	# Ensure HTTPS is now running
