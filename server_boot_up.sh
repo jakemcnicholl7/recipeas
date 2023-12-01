@@ -3,6 +3,7 @@ DEPLOYMENT_DIRECTORY=/opt/codedeploy-agent/deployment-root/$DEPLOYMENT_GROUP_ID/
 WORKPLACE=$BASE_DIRECTORY/workplace
 PROJECT=$WORKPLACE/$APPLICATION_NAME
 WEBSITE="taitneamh.ie"
+USER="ec2-user"
 
 # Reset Home directory
 export HOME=$BASE_DIRECTORY
@@ -25,7 +26,9 @@ if pipenv --version; then
 else
 	echo "[INFO] installing pipenv"
 	sudo yum -y install python3-pip
-	pip install pipenv
+	sudo -H -u $USER pip install pipenv
+	source $BASE_DIRECTORY/.bashrc
+	echo "[INFO] pipenv installed"
 fi
 
 # Install pyenv (necessary for python installation)
@@ -39,7 +42,7 @@ else
 	echo "export PYENV_ROOT=\"\$HOME/.pyenv\"" >> $BASE_DIRECTORY/.bashrc
 	echo "export PATH=\"\$PYENV_ROOT/bin:\$PATH\"" >> $BASE_DIRECTORY/.bashrc
 	echo "if command -v pyenv 1>/dev/null 2>&1; then" >> $BASE_DIRECTORY/.bashrc
-	echo "	eval \"$(pyenv init -)\"" >> $BASE_DIRECTORY/.bashrc
+	echo "	eval \"\$(pyenv init -)\"" >> $BASE_DIRECTORY/.bashrc
 	echo "fi" >> $BASE_DIRECTORY/.bashrc
 	source $BASE_DIRECTORY/.bashrc
 fi
