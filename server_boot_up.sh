@@ -81,15 +81,15 @@ sudo ln -sf $PROJECT/nginx_basic.conf /etc/nginx/conf.d/nginx.conf
 # Start python virtual environment
 echo "[INFO] Syncing python runtime dependencies"
 cd $PROJECT
-source $(pipenv --venv)/bin/activate
+if [ ! $(pipenv --venv) ]; then 
+	echo "[INFO] Setting up pipenv virtual env for the first time"
+	yes | pipenv install
+fi
 pipenv sync
 
 # Run Application Internally
 echo "[INFO] Running server locally"
 pipenv run gunicorn -c gunicorn_config.py src.api:application --daemon
-
-# End python virtual environment
-deactivate
 
 # Run Applicaiton Externally
 echo "[INFO] Running server externally"
