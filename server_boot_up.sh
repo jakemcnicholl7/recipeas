@@ -4,15 +4,14 @@ WORKPLACE=$BASE_DIRECTORY/workplace
 PROJECT=$WORKPLACE/$APPLICATION_NAME
 WEBSITE="taitneamh.ie"
 
-log () {
-	echo $1 >> $BASE_DIRECTORY/deployment.log
-}
+# Reset Home directory
+export HOME=$BASE_DIRECTORY
 
 # Load bashrc
 source $BASE_DIRECTORY/.bashrc
 
 # Workplace Setup
-rm -r $WORKPLACE
+rm -rf $WORKPLACE
 mkdir -p $WORKPLACE
 ln -sf $DEPLOYMENT_DIRECTORY $PROJECT
 
@@ -25,7 +24,7 @@ if pipenv --version; then
 	echo "[INFO] pipenv already installed"
 else
 	echo "[INFO] installing pipenv"
-	sudo yum install python3-pip
+	sudo yum -y install python3-pip
 	pip install pipenv
 fi
 
@@ -40,7 +39,7 @@ else
 	echo "export PYENV_ROOT=\"\$HOME/.pyenv\"" >> $BASE_DIRECTORY/.bashrc
 	echo "export PATH=\"\$PYENV_ROOT/bin:\$PATH\"" >> $BASE_DIRECTORY/.bashrc
 	echo "if command -v pyenv 1>/dev/null 2>&1; then" >> $BASE_DIRECTORY/.bashrc
-	echo "	eval '(pyenv init -)'" >> $BASE_DIRECTORY/.bashrc
+	echo "	eval \"$(pyenv init -)\"" >> $BASE_DIRECTORY/.bashrc
 	echo "fi" >> $BASE_DIRECTORY/.bashrc
 	source $BASE_DIRECTORY/.bashrc
 fi
@@ -50,7 +49,7 @@ if nginx -v; then
 	echo "[INFO] nginx already installed"
 else
 	echo "[INFO] installing nginx"
-	sudo yum install nginx
+	sudo yum -y install nginx
 fi
 
 # Install HTTPS encryption tools
@@ -73,7 +72,8 @@ sudo pkill gunicorn
 
 # Configure nginx 
 echo "[INFO] Configuring nginx"
-sudo ln -sf $PROJECT/nginx_basic.conf /etc/nginx/conf.d/
+sudo rm -f /etc/nginx/conf.d/nginx.conf
+sudo ln -sf $PROJECT/nginx_basic.conf /etc/nginx/conf.d/nginx.conf
 
 # Start python virtual environment
 echo "[INFO] Syncing python runtime dependencies"
@@ -93,14 +93,27 @@ echo "[INFO] Running server externally"
 sudo systemctl start nginx
 sudo systemctl enable nginx
 
+# Check HTTPS connection
+url="https://$WEBSITE" 
+response=$(curl -s -o /dev/null -w "%{http_code}" "$url")
+
 # Setup HTTPS encryption
-if sudo [ -d  /etc/letsencrypt/live/$WEBSITE ]; then 
-	echo "[INFO] Https encryption already setup"
+if [ "$response" -ge 200 ] && [ "$response" -lt 300 ]; then
+	echo "[INFO] SUCCESS HTTPS is already setup"
 else
 	echo "[INFO] Setting up HTTPS encryption"
 	sudo certbot --nginx -d taitneamh.ie -d www.taitneamh.ie --agree-tos -n
 	echo "0 0,12 * * * root /opt/cerbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)'" | sudo tee -a /etc/crontab > /dev/null
-	echo "[INFO] HTTPS encryption setup"
+
+	# Ensure HTTPS is now running
+	url="https://$WEBSITE"  
+	response=$(curl -s -o /dev/null -w "%{http_code}" "$url")
+	if [ "$response" -ge 200 ] && [ "$response" -lt 300 ]; then
+		echo "[INFO] SUCCESS HTTPS connection setup"
+	else
+		echo "[ERROR] Failed to setup HTTPS connection"
+		exit 1
+	fi
 fi
 
 

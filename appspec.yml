@@ -2,4 +2,4 @@ version: 0.0
 os: linux
 hooks:
     ApplicationStart: 
-        - location: test.sh
+        - location: server_boot_up.sh
