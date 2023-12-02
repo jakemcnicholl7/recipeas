@@ -27,8 +27,8 @@ echo $CONFIG | jq -r | jq -r 'to_entries[] | "\(.key)=\"\(.value)\""' > .env
 
 # Export config values
 echo $CONFIG | jq -r | jq -r 'to_entries[] | "export \(.key)=\"\(.value)\""' > config_export.sh
-source config_export.sh
-rm -f config_export.sh
+source ./config_export.sh
+rm -f ./config_export.sh
 
 # Install pipenv
 if pipenv --version; then
