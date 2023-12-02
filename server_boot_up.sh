@@ -117,6 +117,8 @@ else
 	echo "[INFO] Setting up HTTPS encryption"
 	sudo certbot --nginx -d $WEBSITE -d www.$WEBSITE --agree-tos -n -m $EMAIL
 	echo "0 0,12 * * * root /opt/cerbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)'" | sudo tee -a /etc/crontab > /dev/null
+	echo "[INFO] Reloading nginx config"
+	sudo nginx -s reload
 
 	# Ensure HTTPS is now running
 	url="https://$WEBSITE"  
