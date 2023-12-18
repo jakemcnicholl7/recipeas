@@ -1,0 +1,5 @@
+[data]
+database_endpoint = "mongodb://127.0.0.1:27017/"
+recipeas_database_name = "recipeas"
+recipe_collection_name = "recipes"
+

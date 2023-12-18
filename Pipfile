@@ -10,6 +10,7 @@ python-dotenv = "*"
 pytest = "*"
 mock = "*"
 gunicorn = "*"
+toml = "*"
 
 [dev-packages]
 pytest = "*"

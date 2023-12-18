@@ -3,9 +3,13 @@ import pandas as pd
 import sys
 import os
 
-MONGO_ENDPOINT = "mongodb://localhost:27017/"
-RECIPEAS_DATABASE = "recipeas"
-RECIPE_COLLECTION = "recipes"
+from src import config
+
+CONFIGURATION = config.load()
+
+MONGO_ENDPOINT = CONFIGURATION["data"]["database_endpoint"] 
+RECIPEAS_DATABASE = CONFIGURATION["data"]["recipes_database_name"] 
+RECIPE_COLLECTION = CONFIGURATION["data"]["recipes_collection_name"] 
 RECIPE_DB_SOURCE_FILE = "data/recipes.csv"
 
 RESET = False
