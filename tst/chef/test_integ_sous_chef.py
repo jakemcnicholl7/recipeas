@@ -1,7 +1,7 @@
 import pytest
 import json
 
-from src.chef.sous_chef.sous_chef_spoonacular import SpoonacularSousChef
+from src.chef.sous_chef.spoonacular_sous_chef import SpoonacularSousChef
 from tst import tst_config as cfg
 
 @pytest.fixture

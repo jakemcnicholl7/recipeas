@@ -11,6 +11,7 @@ pytest = "*"
 mock = "*"
 gunicorn = "*"
 toml = "*"
+pytest-mock = "*"
 
 [dev-packages]
 pytest = "*"

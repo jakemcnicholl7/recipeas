@@ -8,8 +8,8 @@ from src import config
 CONFIGURATION = config.load()
 
 MONGO_ENDPOINT = CONFIGURATION["data"]["database_endpoint"] 
-RECIPEAS_DATABASE = CONFIGURATION["data"]["recipes_database_name"] 
-RECIPE_COLLECTION = CONFIGURATION["data"]["recipes_collection_name"] 
+RECIPEAS_DATABASE = CONFIGURATION["data"]["recipeas_database_name"] 
+RECIPE_COLLECTION = CONFIGURATION["data"]["recipe_collection_name"] 
 RECIPE_DB_SOURCE_FILE = "data/recipes.csv"
 
 RESET = False
