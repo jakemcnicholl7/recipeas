@@ -5,16 +5,10 @@ import requests
 from urllib.parse import urlencode
 from dotenv import load_dotenv
 
+from src.chef.sous_chef.sous_chef import SousChef
+
 load_dotenv()
 SPOONACULAR_API_KEY = os.getenv("SPOONACULAR_API_KEY")
-
-class SousChef:
-    def __init__(self):
-        ...
-    
-    def get_random_meals(self, number):
-        ...
-
 
 class SpoonacularSousChef(SousChef):
     URL_ENDPOINT = "https://api.spoonacular.com/recipes/"
