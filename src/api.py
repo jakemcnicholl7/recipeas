@@ -6,7 +6,7 @@ application = Flask(__name__)
 
 @application.route('/')
 def get_random_meals(chef=chef):
-    return chef.make_random_meals()
+    return jsonify(chef.make_random_meals())
 
 
 if __name__ == '__main__':

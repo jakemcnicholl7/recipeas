@@ -10,7 +10,10 @@ class RecipeDatabase():
 
 
     def get_random_items(self, size=1):
-        pipeline = [{"$sample": {"size": size}}]  
+        pipeline = [
+            {"$sample": {"size": size}}, 
+            {"$project": {"_id": 0}}
+        ]  
         return list(self.collection.aggregate(pipeline))
 
 
