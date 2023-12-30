@@ -13,6 +13,7 @@ gunicorn = "*"
 toml = "*"
 pytest-mock = "*"
 pymongo = "*"
+flask-cors = "*"
 
 [dev-packages]
 pytest = "*"
