@@ -10,6 +10,8 @@
 
 ### Runnning
 
+1. Run the database locally
+   `source scipts/start_recipe_database.sh`
 1. Run the API server:
    `python -m src.api`
 1. Navigate to http://127.0.0.1:5000 and make a request. 

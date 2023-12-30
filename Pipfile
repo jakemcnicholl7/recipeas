@@ -12,6 +12,7 @@ mock = "*"
 gunicorn = "*"
 toml = "*"
 pytest-mock = "*"
+pymongo = "*"
 
 [dev-packages]
 pytest = "*"
